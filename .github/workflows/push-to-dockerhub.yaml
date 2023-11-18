@@ -44,24 +44,20 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs
 
-      - name: Set up Docker
-        uses: docker://stable
-
       - name: Build and push Docker image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:$NEW_TAG .
-          docker push ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:$NEW_TAG
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ github.sha }},${{ steps.meta.outputs.tags }},${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest
+          labels: ${{ steps.meta.outputs.labels }}
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-      #   with:
-      #     context: .
-      #     file: ./Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:$NEW_TAG,${{ steps.meta.outputs.tags }},${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Debug
+        run:
+          echo "NEW_TAG value $NEW_TAG"
 
-      # - name: Update K8s Deployment
+          # - name: Update K8s Deployment
       #   run: |
       #     # Generate a new image tag using the environment variable
       #     new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:$NEW_TAG"
