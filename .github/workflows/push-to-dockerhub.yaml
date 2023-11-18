@@ -71,6 +71,7 @@ jobs:
         with:
           cluster_name: autopilot-cluster-1
           location: asia-southeast1-a
+          project_id: ${{ secrets.GKE_PROJECT }}
 
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
