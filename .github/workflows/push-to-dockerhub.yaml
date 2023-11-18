@@ -8,24 +8,24 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    # env:
-    #   NEW_TAG: v1.0.$(git log -1 --pretty=format:"%H" | head -c 8)
+    env:
+      NEW_TAG: v1.0.$(git log -1 --pretty=format:"%H" | head -c 8)
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      # # Setup gcloud CLI
+      # Setup gcloud CLI
       # - uses: google-github-actions/setup-gcloud@1bee7de035d65ec5da40a31f8589e240eba8fde5
       #   with:
       #     service_account_key: ${{ secrets.GKE_SA_KEY }}
       #     project_id: ${{ secrets.GKE_PROJECT }}
 
-      # # Configure Docker to use the gcloud command-line tool as a credential
-      # # helper for authentication
+      # Configure Docker to use the gcloud command-line tool as a credential
+      # helper for authentication
       # - run: |-
       #     gcloud --quiet auth configure-docker
 
-      # # Get the GKE credentials so we can deploy to the cluster
+      # Get the GKE credentials so we can deploy to the cluster
       # - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
       #   with:
       #     cluster_name: ${{ env.GKE_CLUSTER }}
@@ -50,15 +50,10 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest,${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:$NEW_TAG,${{ steps.meta.outputs.tags }},${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-      # Deploy the Docker image to the GKE cluster
-      # - name: Deployz
-      #   run: |
-      #     kubectl apply -f ./manifest
-
-      # - name: Update K8s Deployment
+          # - name: Update K8s Deployment
       #   run: |
       #     # Generate a new image tag using the environment variable
       #     new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:$NEW_TAG"
@@ -72,3 +67,7 @@ jobs:
       #     git add ./manifest/deployment.yaml
       #     git commit -m "Update image tag to ${new_tag}"
       #     git push origin main
+
+      # Deploy the Docker image to the GKE cluster
+      # - name: Deploy
+      #   run: kubectl apply -f ./manifest
