@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEW_TAG: ${{ github.sha }}
-      GKE_CLUSTER: autopilot-cluster-1
-      GKE_ZONE: asia-southeast1-a
 
     steps:
       - name: Check out the repo
@@ -71,8 +69,8 @@ jobs:
       # Get the GKE credentials so we can deploy to the cluster
       - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
         with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
+          cluster_name: autopilot-cluster-1
+          location: asia-southeast1-a
           credentials: ${{ secrets.GKE_SA_KEY }}
 
       # Deploy the Docker image to the GKE cluster
