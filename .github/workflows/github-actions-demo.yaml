@@ -5,4 +5,4 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ secrets.DOCKER_USERNAME }} event."
+      - run: echo "🎉 The job was automatically triggered by a $GG_NAME -- ${{ secrets.DOCKER_USERNAME }} event."
