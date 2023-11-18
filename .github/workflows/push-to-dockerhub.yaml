@@ -54,7 +54,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       # Deploy the Docker image to the GKE cluster
-      # - name: Deploy
+      # - name: Deployz
       #   run: |
       #     kubectl apply -f ./manifest
 
