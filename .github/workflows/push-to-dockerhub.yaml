@@ -31,7 +31,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            your-username/your-repo:latest
-            your-username/your-repo:version-1.0
-            your-username/your-repo:${{ steps.meta.outputs.tags }}
+            ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest
+            ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:version-1.0
+            ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
