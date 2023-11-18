@@ -13,6 +13,10 @@ app.get("/", (req, res) => {
   res.send("Hello, World!!!! this is new version --> " + envName);
 });
 
+app.get("/app", (req, res) => {
+  res.send("oh no app");
+});
+
 // Start the Express server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
