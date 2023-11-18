@@ -8,6 +8,8 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    env:
+      NEW_TAG: v1.0.$(git log -1 --pretty=format:"%H" | head -c 8)
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -30,5 +32,20 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest,${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest,${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${NEW_TAG},${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Update K8s Deployment
+        run: |
+          # Generate a new image tag using the environment variable
+          new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${NEW_TAG}"
+
+          # Update the K8s deployment file using yq
+          yq eval ".spec.template.spec.containers[0].image |= \"${new_tag}\"" -i ./manifest/deployment.yaml
+
+          # Commit the changes
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./manifest/deployment.yaml
+          git commit -m "Update image tag to ${new_tag}"
+          git push origin main
