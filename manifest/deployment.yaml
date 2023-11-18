@@ -18,3 +18,9 @@ spec:
           image: thanapongsj/tcc-nodejs:latest
           ports:
             - containerPort: 3000
+          env:
+            - name: ENV_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: tcc-nodejs-configmap
+                  key: ENV_NAME

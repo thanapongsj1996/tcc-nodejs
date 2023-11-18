@@ -1,0 +1,9 @@
+// configmap
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcc-nodejs-configmap
+  namespace: develop
+data:
+  ENV_NAME: boy
