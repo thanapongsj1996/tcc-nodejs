@@ -3,7 +3,7 @@ name: "🚓 CodeQL Analysis"
 
 on:
   push:
-    branches: ["feature/*"]
+    branches: ["develop"]
   schedule:
     - cron: "0 06 1,15 * *" # 6am on 1st and 15th of every month
   workflow_dispatch: # allow manual runs
