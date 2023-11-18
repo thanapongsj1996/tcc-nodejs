@@ -71,7 +71,7 @@ jobs:
         uses: google-github-actions/get-gke-credentials@v0
         with:
           cluster_name: autopilot-cluster-1
-          location: asia-southeast1-a
+          location: asia-southeast1
           project_id: ${{ secrets.GKE_PROJECT }}
           credentials: ${{ secrets.GKE_SA_KEY }}
 
