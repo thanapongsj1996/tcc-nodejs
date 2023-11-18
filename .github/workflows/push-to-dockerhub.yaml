@@ -1,6 +1,9 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Push to DockerHub
+run-name: ${{ github.actor }} is building and pushing container to DockerHub 🚀
+on:
+  push:
+    branches:
+      - develop
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
