@@ -30,8 +30,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            latest
-            version-1.0
-            ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest , ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
