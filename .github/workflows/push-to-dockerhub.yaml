@@ -54,23 +54,22 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Debug
-        run:
-          echo "NEW_TAG value $NEW_TAG"
+        run: echo "NEW_TAG value $NEW_TAG"
 
-          # - name: Update K8s Deployment
-      #   run: |
-      #     # Generate a new image tag using the environment variable
-      #     new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:$NEW_TAG"
+      - name: Update K8s Deployment
+        run: |
+          # Generate a new image tag using the environment variable
+          new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ github.sha }}"
 
-      #     # Update the K8s deployment file using yq
-      #     yq eval ".spec.template.spec.containers[0].image |= \"${new_tag}\"" -i ./manifest/deployment.yaml
+          # Update the K8s deployment file using yq
+          yq eval ".spec.template.spec.containers[0].image |= \"${new_tag}\"" -i ./manifest/deployment.yaml
 
-      #     # Commit the changes
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git add ./manifest/deployment.yaml
-      #     git commit -m "Update image tag to ${new_tag}"
-      #     git push origin main
+          # Commit the changes
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./manifest/deployment.yaml
+          git commit -m "Update image tag to ${new_tag}"
+          git push origin main
 
       # Deploy the Docker image to the GKE cluster
       # - name: Deploy
