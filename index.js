@@ -6,7 +6,7 @@ dotenv.config();
 
 const PORT = 3000;
 const envName =
-  process.env.ENV_NAME === "" ? process.env.ENV_NAME : "not found";
+  process.env.ENV_NAME === "" ? "not found" : process.env.ENV_NAME;
 
 // Define a route that responds with "Hello, World!"
 app.get("/", (req, res) => {

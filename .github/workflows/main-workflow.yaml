@@ -1,5 +1,5 @@
-name: Push to DockerHub
-run-name: ${{ github.actor }} is building and pushing container to DockerHub 🚀
+name: Push to DockerHub and Update K8s Deployment
+run-name: ${{ github.actor }} is deploying this app 🚀
 on:
   push:
     branches:
@@ -36,27 +36,24 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ github.sha }},${{ steps.meta.outputs.tags }},${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Debug
-        run: echo "NEW_TAG value $NEW_TAG"
-
       - name: Update K8s Deployment
         run: |
           # Generate a new image tag using the environment variable
-          new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ github.sha }}"
+          image_with_new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ github.sha }}"
 
           # Update the K8s deployment file using yq
-          yq eval ".spec.template.spec.containers[0].image |= \"${new_tag}\"" -i ./manifest/deployment.yaml
+          yq eval ".spec.template.spec.containers[0].image |= \"${image_with_new_tag}\"" -i ./manifest/deployment.yaml
 
           # Commit the changes
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git checkout develop
           git add ./manifest/deployment.yaml
-          git commit -m "Update image tag to ${new_tag}"
+          git commit -m "Update image to ${image_with_new_tag}"
           git push origin develop
 
-          # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@1bee7de035d65ec5da40a31f8589e240eba8fde5
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@1bee7de035d65ec5da40a31f8589e240eba8fde5
         with:
           service_account_key: ${{ secrets.GKE_SA_KEY }}
           project_id: ${{ secrets.GKE_PROJECT }}
@@ -75,14 +72,6 @@ jobs:
           project_id: ${{ secrets.GKE_PROJECT }}
           credentials: ${{ secrets.GKE_SA_KEY }}
 
-      # - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
-      #   with:
-      #     cluster_name: autopilot-cluster-1
-      #     location: asia-southeast1-a
-      #     project_id: ${{ secrets.GKE_PROJECT }}
-      #     credentials: ${{ secrets.GKE_SA_KEY }}
-
-      # Deploy the Docker image to the GKE cluster
-      - name: Deploy
+      - name: Deploy the Docker image to the GKE cluster
         run: |-
           kubectl apply -f ./manifest
