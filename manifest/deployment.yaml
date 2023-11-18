@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: tcc-nodejs
-          image: thanapongsj/tcc-nodejs:develop
+          image: thanapongsj/tcc-nodejs:latest
           ports:
             - containerPort: 3000

@@ -30,5 +30,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ["latest", "${{ steps.meta.outputs.tags }}"]
+          tags: |
+            your-username/your-repo:latest
+            your-username/your-repo:version-1.0
+            your-username/your-repo:${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
