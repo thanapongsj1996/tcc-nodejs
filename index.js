@@ -10,6 +10,7 @@ const envName =
 
 // Define a route that responds with "Hello, World!"
 app.get("/", (req, res) => {
+  console.log(JSON.stringify({ path: "/", envName: envName }));
   res.send("Hello, World!!!! this is new version --> " + envName);
 });
 

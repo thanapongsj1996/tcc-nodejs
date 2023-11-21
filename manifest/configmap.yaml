@@ -4,4 +4,4 @@ metadata:
   name: tcc-nodejs-configmap
   namespace: develop
 data:
-  ENV_NAME: boy
+  ENV_NAME: boyhahaha
