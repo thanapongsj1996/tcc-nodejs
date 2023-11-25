@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tcc-nodejs-deployment
+  name: tcc-nodejs
   namespace: prod
 spec:
   replicas: 1

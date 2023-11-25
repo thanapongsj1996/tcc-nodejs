@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tcc-nodejs-deployment
+  name: tcc-nodejs
   namespace: develop
 spec:
   replicas: 1
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: tcc-nodejs
-          image: thanapongsj/tcc-nodejs:79b71b204f2b45be0ba77ec566d37a27409f0690
+          image: thanapongsj/tcc-nodejs:ac11b5bbd916ea12ebd337755afe12481550f0af
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
