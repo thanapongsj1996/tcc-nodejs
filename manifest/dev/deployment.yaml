@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: tcc-nodejs
-          image: thanapongsj/tcc-nodejs:4b72360f06bb98a85d1331e1c15e07d00895d4a1
+          image: thanapongsj/tcc-nodejs:79b71b204f2b45be0ba77ec566d37a27409f0690
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
