@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tcc-nodejs-ingress-prod
-  namespace: develop
+  name: tcc-nodejs-ingress
+  namespace: prod
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: tcc-nodejs-service-prod
+                name: tcc-nodejs-service
                 port:
                   number: 80

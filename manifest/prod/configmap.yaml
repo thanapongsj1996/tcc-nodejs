@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tcc-nodejs-configmap-prod
-  namespace: develop
+  name: tcc-nodejs-configmap
+  namespace: prod
 data:
-  ENV_NAME: boyhahaha-prod
+  ENV_NAME: boyhahaha
