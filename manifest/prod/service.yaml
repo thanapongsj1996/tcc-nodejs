@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tcc-nodejs-service-prod
+  namespace: develop
+spec:
+  selector:
+    app: tcc-nodejs-prod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
