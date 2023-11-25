@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tcc-nodejs-service-prod
-  namespace: develop
+  name: tcc-nodejs-service
+  namespace: prod
 spec:
   selector:
-    app: tcc-nodejs-prod
+    app: tcc-nodejs
   ports:
     - protocol: TCP
       port: 80
