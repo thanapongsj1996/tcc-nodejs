@@ -1,0 +1,14 @@
+name: Push to DockerHub and Update K8s Deployment
+run-name: ${{ github.actor }} is merging this app 🚀
+on:
+  pull_request_target:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo The PR was merged
