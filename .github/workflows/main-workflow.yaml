@@ -42,13 +42,13 @@ jobs:
           image_with_new_tag="${{ secrets.DOCKER_USERNAME }}/tcc-nodejs:${{ github.sha }}"
 
           # Update the K8s deployment file using yq
-          yq eval ".spec.template.spec.containers[0].image |= \"${image_with_new_tag}\"" -i ./manifest/deployment.yaml
+          yq eval ".spec.template.spec.containers[0].image |= \"${image_with_new_tag}\"" -i ./manifest/dev/deployment.yaml
 
           # Commit the changes
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git checkout develop
-          git add ./manifest/deployment.yaml
+          git add ./manifest/dev/deployment.yaml
           git commit -m "Update image to ${image_with_new_tag}"
           git push origin develop
 
@@ -74,4 +74,4 @@ jobs:
 
       - name: Deploy the Docker image to the GKE cluster
         run: |-
-          kubectl apply -f ./manifest
+          kubectl apply -f ./manifest/dev
